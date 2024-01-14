@@ -1,7 +1,8 @@
 svg {
     border: 1px solid #000;
-  }
-  body {
+}
+
+body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -40,16 +41,53 @@ h1 {
     margin: 5px;
 }
 
-#loginPanel, #registrationPanel {
+#loginPanel,
+#registrationPanel {
     margin-left: 20px;
-  }
-  
-  form label,
-  form input {
+}
+
+form label,
+form input {
     display: block;
     margin-bottom: 10px;
-  }
-  
-#logoutButton, #loginButton, #registerButton, #savePreferencesButton{
+}
+
+#logoutButton,
+#loginButton,
+#registerButton,
+#savePreferencesButton {
     display: none;
+}
+
+h2 {
+    cursor: pointer;
+    user-select: none;
+    margin: 10px;
+}
+
+p,
+ul,
+li,
+h3 {
+    margin: 10px;
+}
+
+h2::after {
+    content: ' ►';
+}
+
+.expanded {
+    display: block;
+}
+
+.collapsed {
+    display: none;
+}
+
+#animation {
+    cursor: auto;
+}
+
+#animation::after {
+    content: '';
 }
