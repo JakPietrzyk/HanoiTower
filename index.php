@@ -1,3 +1,8 @@
+<?php
+session_start();
+
+$isSessionSet = isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true;
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,6 +18,7 @@
     <div id="userButtons">
       <button id="loginButton" onclick="showLoginPanel()">Login</button>
       <button id="registerButton" onclick="showRegistrationPanel()">Register</button>
+      <button id="logoutButton" onclick="_logout()">Logout</button>
     </div>
   </header>
 
@@ -64,8 +70,21 @@
       <button type="button" onclick="cancelAction()">Cancel</button>
     </form>
   </div>
-</div>
-
+  </div>
+  <script>
+    var isSessionSet = <?php echo json_encode($isSessionSet); ?>;
+    if (isSessionSet) {
+      document.getElementById('registerButton').style.display = 'none';
+      document.getElementById('loginButton').style.display = 'none';
+      document.getElementById('logoutButton').style.display = 'inline-block';
+      // document.getElementById('savePreferencesButton').style.display = 'inline-block';
+    } else {
+      document.getElementById('registerButton').style.display = 'inline-block';
+      document.getElementById('loginButton').style.display = 'inline-block';
+      document.getElementById('logoutButton').style.display = 'none';
+      document.getElementById('savePreferencesButton').style.display = 'none';
+    }
+  </script>
   <script src="js/hanoi.js"></script>
   <script src="js/userActions.js"></script>
 </body>

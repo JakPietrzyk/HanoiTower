@@ -25,6 +25,22 @@ function cancelAction()
 
 const url = "http://localhost:4010//~1pietrzyk/zad/hanoiTower/php/";
 const xhr = new XMLHttpRequest();
+
+
+function checkSessionStatus() {
+    if (isSessionSet) {
+        document.getElementById('registerButton').style.display = 'none';
+        document.getElementById('loginButton').style.display = 'none';
+        document.getElementById('logoutButton').style.display = 'inline-block';
+        document.getElementById('savePreferencesButton').style.display = 'inline-block';
+    } else {
+        document.getElementById('registerButton').style.display = 'inline-block';
+        document.getElementById('loginButton').style.display = 'inline-block';
+        document.getElementById('logoutButton').style.display = 'none';
+        document.getElementById('savePreferencesButton').style.display = 'none';
+    }
+}
+
 function _register(form) {
     var user = {};
     user.username = form.username.value;
@@ -34,8 +50,6 @@ function _register(form) {
     xhr.setRequestHeader('Content-Type', 'application/json')
     xhr.addEventListener("load", e => {
        if (xhr.status == 200) {
-        //   document.getElementById('data').innerHTML = '';
-        //   document.getElementById('result').innerHTML = JSON.stringify(xhr.response);
         cancelAction();
        }
 
@@ -65,9 +79,9 @@ function _register(form) {
     xhr.setRequestHeader('Content-Type', 'application/json')
     xhr.addEventListener("load", e => {
        if (xhr.status == 200) {
-        //   document.getElementById('data').innerHTML = '';
-        //   document.getElementById('result').innerHTML = JSON.stringify(xhr.response);
         cancelAction();
+        isSessionSet = true;
+        checkSessionStatus();
        }
 
        else {
@@ -86,3 +100,33 @@ function _register(form) {
     })
     xhr.send(txt);
  }
+
+ function _logout()
+ {
+    xhr.open("POST", url + "logout", true);
+    xhr.setRequestHeader('Content-Type', 'application/json')
+    xhr.addEventListener("load", e => {
+       if (xhr.status == 200) {
+        isSessionSet = false;
+        checkSessionStatus();
+       }
+
+       else {
+        try {
+            const errorResponse = JSON.parse(xhr.response);
+            if (errorResponse && errorResponse.msg) {
+                alert('Error: ' + errorResponse.msg);
+            } else {
+                alert('Error: Unknown error occurred.');
+            }
+        } catch (e) {
+            alert('Error: Unable to parse the error response.');
+            console.error('Error response:', xhr.response);
+        }
+       }
+    })
+    xhr.send('{}');
+ }
+
+
+
