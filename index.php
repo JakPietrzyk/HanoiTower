@@ -21,7 +21,7 @@ $isSessionSet = isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true;
     </div>
   </header>
 
-  <div>
+  <div id="content">
     <h2 onclick="toggleContent('whatIsHanoi')">Czym jest Wieża Hanoi?</h2>
     <div id="whatIsHanoi" class="collapsed">
       <ul>
@@ -96,9 +96,10 @@ $isSessionSet = isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true;
     </pre>
     </div>
   </div>
-  <h2 id="animation">Przedstawienie algorytmu</h2>
+
 
   <div id="hanoiTower">
+    <h2 id="animation">Przedstawienie algorytmu</h2>
     <svg id="tower" width="600" height="400"></svg>
     <div>
       <label for="diskNumber">Wybierz ilość krążków:</label>
@@ -126,7 +127,7 @@ $isSessionSet = isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true;
 
 
   <div id="loginPanel" style="display: none">
-    <h2>Logowanie</h2>
+    <h1>Logowanie</h1>
     <form id="loginForm">
       <label for="loginUsername">Nazwa użytkownika:</label>
       <input type="text" id="loginUsername" name="username" required>
@@ -140,7 +141,7 @@ $isSessionSet = isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true;
     </form>
   </div>
   <div id="registrationPanel" style="display: none">
-    <h2>Rejestracja</h2>
+    <h1>Rejestracja</h1>
     <form id="registrationPForm">
       <label for="registerUsername">Nazwa użytkownika:</label>
       <input type="text" id="registerUsername" name="username" required>

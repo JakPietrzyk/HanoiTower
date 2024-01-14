@@ -1,10 +1,12 @@
 const registrationPanel = document.getElementById("registrationPanel");
 const mainPanel = document.getElementById("hanoiTower");
 const loginPanel = document.getElementById("loginPanel");
+const content = document.getElementById("content");
 function collapseAll() {
     loginPanel.style.display = "none";
     registrationPanel.style.display = "none";
     mainPanel.style.display = "none";
+    content.style.display = "none";
 }
 
 function showLoginPanel() {
@@ -21,6 +23,7 @@ function cancelAction()
 {
     collapseAll();
     mainPanel.style.display = "flex";
+    content.style.display = "block";
 }
 
 
