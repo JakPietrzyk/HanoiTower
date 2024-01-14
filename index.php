@@ -3,6 +3,11 @@ session_start();
 
 $isSessionSet = isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true;
 ?>
+<!-- <?php
+echo '<pre>';
+print_r($_SESSION);
+echo '</pre>';
+?> -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -39,7 +44,8 @@ $isSessionSet = isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true;
 
       <button id="solveButton">Solve</button>
       <button id="resetButton">Reset</button>
-      <button id="savePreferencesButton" onclick="savePreferences()">Save Preferences</button>
+      <button id="savePreferencesButton" onclick="savePreferences()">Save preferences</button>
+      <button id="loadPreferencesButton" onclick="setUserPreferences()">Set saved preferences</button>
     </div>
   </div>
 
@@ -73,20 +79,28 @@ $isSessionSet = isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true;
   </div>
   <script>
     var isSessionSet = <?php echo json_encode($isSessionSet); ?>;
-    if (isSessionSet) {
-      document.getElementById('registerButton').style.display = 'none';
-      document.getElementById('loginButton').style.display = 'none';
-      document.getElementById('logoutButton').style.display = 'inline-block';
-      // document.getElementById('savePreferencesButton').style.display = 'inline-block';
-    } else {
-      document.getElementById('registerButton').style.display = 'inline-block';
-      document.getElementById('loginButton').style.display = 'inline-block';
-      document.getElementById('logoutButton').style.display = 'none';
-      document.getElementById('savePreferencesButton').style.display = 'none';
+    function checkSessionStatus() {
+      if (isSessionSet) {
+        document.getElementById('registerButton').style.display = 'none';
+        document.getElementById('loginButton').style.display = 'none';
+        document.getElementById('logoutButton').style.display = 'inline-block';
+        document.getElementById('savePreferencesButton').style.display = 'inline-block';
+        document.getElementById('loadPreferencesButton').style.display = 'inline-block';
+      } else {
+        document.getElementById('registerButton').style.display = 'inline-block';
+        document.getElementById('loginButton').style.display = 'inline-block';
+        document.getElementById('logoutButton').style.display = 'none';
+        document.getElementById('savePreferencesButton').style.display = 'none';
+        document.getElementById('loadPreferencesButton').style.display = 'none';
+
+
+      }
     }
+    checkSessionStatus();
   </script>
   <script src="js/hanoi.js"></script>
   <script src="js/userActions.js"></script>
+
 </body>
 
 </html>

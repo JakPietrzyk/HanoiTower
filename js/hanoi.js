@@ -1,5 +1,7 @@
 const svgns = "http://www.w3.org/2000/svg";
 const tower = document.getElementById('tower');
+const xhr = new XMLHttpRequest();
+const url = "http://localhost:4010//~1pietrzyk/zad/hanoiTower/php/";
 
 const svgWidth = 600;
 const towerWidth = 150;
@@ -8,9 +10,11 @@ const towerSpacing = 30;
 const poleWidth = 10;
 const diskWidth = 25
 const diskHeight = 20;
-
 let numberOfDisks = parseInt(document.getElementById('diskNumber').value);
 let animationSpeed = parseInt(document.getElementById('animationSpeed').value);
+
+
+
 
 let cancel = false;
 let disks = [];
@@ -139,10 +143,51 @@ async function solveTowerOfHanoi(numberOfDisks, A, B, C) {
     await solveTowerOfHanoi(numberOfDisks - 1, B, A, C);
   }
 }
+function setUserPreferences() {
+  if (isSessionSet) {
+    xhr.open("GET", url + "getPreferences", true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.addEventListener("load", e => {
+      if (xhr.status == 200) {
+        try {
+          const response = JSON.parse(xhr.responseText);
+          if (response.status === 'ok' && response.preferences) {
+            numberOfDisks = response.preferences.numberOfDisks;
+            animationSpeed = response.preferences.animationSpeed;
+            document.getElementById('diskNumber').value = numberOfDisks;
+            document.getElementById('animationSpeed').value = animationSpeed;
+            updateAnimationSpeed();
+            updateNumberOfDisks();
+          }
+        } catch (e) {
+          alert('Error: Unable to parse the response.');
+          console.error('Error response:', xhr.responseText);
+        }
+      } else {
+        try {
+          const errorResponse = JSON.parse(xhr.responseText);
+          if (errorResponse && errorResponse.msg) {
+            alert('Error: ' + errorResponse.msg);
+          } else {
+            alert('Error: Unknown error occurred.');
+          }
+        } catch (e) {
+          alert('Error: Unable to parse the error response.');
+          console.error('Error response:', xhr.responseText);
+        }
+      }
+    });
+    xhr.send();
+  }
+  else
+  {
+    createTower();
+    createDisks();
+  }
 
+}
 
-createTower();
-createDisks();
+setUserPreferences();
 
 document.getElementById('solveButton').addEventListener('click', async () => {
   if(isSolving)

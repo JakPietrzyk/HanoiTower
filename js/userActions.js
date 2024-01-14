@@ -23,23 +23,21 @@ function cancelAction()
     mainPanel.style.display = "flex";
 }
 
-const url = "http://localhost:4010//~1pietrzyk/zad/hanoiTower/php/";
-const xhr = new XMLHttpRequest();
 
 
-function checkSessionStatus() {
-    if (isSessionSet) {
-        document.getElementById('registerButton').style.display = 'none';
-        document.getElementById('loginButton').style.display = 'none';
-        document.getElementById('logoutButton').style.display = 'inline-block';
-        document.getElementById('savePreferencesButton').style.display = 'inline-block';
-    } else {
-        document.getElementById('registerButton').style.display = 'inline-block';
-        document.getElementById('loginButton').style.display = 'inline-block';
-        document.getElementById('logoutButton').style.display = 'none';
-        document.getElementById('savePreferencesButton').style.display = 'none';
-    }
-}
+// function checkSessionStatus() {
+//     if (isSessionSet) {
+//         document.getElementById('registerButton').style.display = 'none';
+//         document.getElementById('loginButton').style.display = 'none';
+//         document.getElementById('logoutButton').style.display = 'inline-block';
+//         document.getElementById('savePreferencesButton').style.display = 'inline-block';
+//     } else {
+//         document.getElementById('registerButton').style.display = 'inline-block';
+//         document.getElementById('loginButton').style.display = 'inline-block';
+//         document.getElementById('logoutButton').style.display = 'none';
+//         document.getElementById('savePreferencesButton').style.display = 'none';
+//     }
+// }
 
 function _register(form) {
     var user = {};
@@ -79,9 +77,9 @@ function _register(form) {
     xhr.setRequestHeader('Content-Type', 'application/json')
     xhr.addEventListener("load", e => {
        if (xhr.status == 200) {
-        cancelAction();
         isSessionSet = true;
         checkSessionStatus();
+        cancelAction();
        }
 
        else {
@@ -128,5 +126,35 @@ function _register(form) {
     xhr.send('{}');
  }
 
+function savePreferences()
+{
+    var preferences = {};
+    let numberOfDisks = parseInt(document.getElementById('diskNumber').value);
+    let animationSpeed = parseInt(document.getElementById('animationSpeed').value);
+    preferences.numberOfDisks = numberOfDisks;
+    preferences.animationSpeed = animationSpeed;
+    txt = JSON.stringify(preferences);
+    xhr.open("POST", url + "savePreferences", true);
+    xhr.setRequestHeader('Content-Type', 'application/json')
+    xhr.addEventListener("load", e => {
+       if (xhr.status == 200) {
+        checkSessionStatus();
+       }
 
+       else {
+        try {
+            const errorResponse = JSON.parse(xhr.response);
+            if (errorResponse && errorResponse.msg) {
+                alert('Error: ' + errorResponse.msg);
+            } else {
+                alert('Error: Unknown error occurred.');
+            }
+        } catch (e) {
+            alert('Error: Unable to parse the error response.');
+            console.error('Error response:', xhr.response);
+        }
+       }
+    })
+    xhr.send(txt);
+}
 
