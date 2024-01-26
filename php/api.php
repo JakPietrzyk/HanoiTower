@@ -1,7 +1,4 @@
 <?php
-ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
-error_reporting(E_ALL);
 require '../vendor/autoload.php';
 require_once("rest.php");
 require_once("database.php");
@@ -32,9 +29,9 @@ class API extends REST
 
     private function _register()
     {
-        // if($this->get_request_method() != "POST") {
-        //     $this->response('',406);
-        // }
+        if($this->get_request_method() != "POST") {
+            $this->response('',406);
+        }
 
         if (!empty($this->_request)) {
             try {
@@ -60,15 +57,14 @@ class API extends REST
 
     private function _login()
     {
-        // if($this->get_request_method() != "POST") {
-        //     $this->response('',406);
-        // }
+        if($this->get_request_method() != "POST") {
+            $this->response('',406);
+        }
 
         if (!empty($this->_request)) {
             try {
                 $isLoginValid = $this->db->validateUser(json_decode($this->_request, true));
                 if ($isLoginValid) {
-                    // session_start();
                     $_SESSION['loggedIn'] = true;
                     setcookie('user_authenticated', true, time() + (86400 * 30), "/");
                     $result = array('return' => 'ok');

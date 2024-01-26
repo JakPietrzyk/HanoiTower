@@ -26,26 +26,17 @@ function cancelAction()
     content.style.display = "block";
 }
 
-
-
-// function checkSessionStatus() {
-//     if (isSessionSet) {
-//         document.getElementById('registerButton').style.display = 'none';
-//         document.getElementById('loginButton').style.display = 'none';
-//         document.getElementById('logoutButton').style.display = 'inline-block';
-//         document.getElementById('savePreferencesButton').style.display = 'inline-block';
-//     } else {
-//         document.getElementById('registerButton').style.display = 'inline-block';
-//         document.getElementById('loginButton').style.display = 'inline-block';
-//         document.getElementById('logoutButton').style.display = 'none';
-//         document.getElementById('savePreferencesButton').style.display = 'none';
-//     }
-// }
-
 function _register(form) {
+    xhr = new XMLHttpRequest();
     var user = {};
-    user.username = form.username.value;
-    user.password = form.password.value;
+    user.username = form.username.value.trim();
+    user.password = form.password.value.trim();
+
+    if (!user.username  || !user.password) {
+        alert('Login i hasło nie mogą być puste!');
+        return;
+    }
+
     txt = JSON.stringify(user);
     xhr.open("POST", url + "register", true);
     xhr.setRequestHeader('Content-Type', 'application/json')
@@ -53,25 +44,20 @@ function _register(form) {
        if (xhr.status == 200) {
         cancelAction();
        }
-
-       else {
-        try {
-            const errorResponse = JSON.parse(xhr.response);
-            if (errorResponse && errorResponse.msg) {
-                alert('Error: ' + errorResponse.msg);
-            } else {
-                alert('Error: Unknown error occurred.');
-            }
-        } catch (e) {
-            alert('Error: Unable to parse the error response.');
-            console.error('Error response:', xhr.response);
-        }
+       else if(xhr.status == 400)
+       {
+        alert("Login jest już zajęty");
+       }
+       else
+       {
+        alert(xhr.response);
        }
     })
     xhr.send(txt);
  }
  
  function _login(form) {
+    xhr = new XMLHttpRequest();
     var user = {};
     user.username = form.username.value;
     user.password = form.password.value;
@@ -84,26 +70,22 @@ function _register(form) {
         checkSessionStatus();
         cancelAction();
        }
-
-       else {
-        try {
-            const errorResponse = JSON.parse(xhr.response);
-            if (errorResponse && errorResponse.msg) {
-                alert('Error: ' + errorResponse.msg);
-            } else {
-                alert('Error: Unknown error occurred.');
-            }
-        } catch (e) {
-            alert('Error: Unable to parse the error response.');
-            console.error('Error response:', xhr.response);
-        }
+       else if(xhr.status == 400)
+       {
+        alert("Niepoprawne dane logowania");
        }
+       else
+       {
+        alert(xhr.response);
+       }
+       return;
     })
     xhr.send(txt);
  }
 
  function _logout()
  {
+    xhr = new XMLHttpRequest();
     xhr.open("POST", url + "logout", true);
     xhr.setRequestHeader('Content-Type', 'application/json')
     xhr.addEventListener("load", e => {
@@ -111,19 +93,9 @@ function _register(form) {
         isSessionSet = false;
         checkSessionStatus();
        }
-
-       else {
-        try {
-            const errorResponse = JSON.parse(xhr.response);
-            if (errorResponse && errorResponse.msg) {
-                alert('Error: ' + errorResponse.msg);
-            } else {
-                alert('Error: Unknown error occurred.');
-            }
-        } catch (e) {
-            alert('Error: Unable to parse the error response.');
-            console.error('Error response:', xhr.response);
-        }
+       else
+       {
+        alert(xhr.response);
        }
     })
     xhr.send('{}');
@@ -131,6 +103,7 @@ function _register(form) {
 
 function savePreferences()
 {
+    xhr = new XMLHttpRequest();
     var preferences = {};
     let numberOfDisks = parseInt(document.getElementById('diskNumber').value);
     let animationSpeed = parseInt(document.getElementById('animationSpeed').value);

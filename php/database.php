@@ -1,9 +1,4 @@
 <?php
-ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
-error_reporting(E_ALL);
-//  use PDO;
-
 class db
 {
   private $dbase;
@@ -83,7 +78,6 @@ class db
       $stmt->execute();
       return self::$dbs->lastInsertId();
     } catch (Exception $e) {
-      // Log or handle the exception as needed
       echo "Error: " . $e->getMessage();
       return false;
     }

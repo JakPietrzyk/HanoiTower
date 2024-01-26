@@ -1,6 +1,6 @@
 RewriteEngine On
  
-RewriteBase /~1pietrzyk/zad/hanoiTower/php/
+RewriteBase /~1pietrzyk/projekt/php/
  
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-s

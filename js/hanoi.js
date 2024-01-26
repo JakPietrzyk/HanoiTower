@@ -1,7 +1,7 @@
 const svgns = "http://www.w3.org/2000/svg";
 const tower = document.getElementById('tower');
-const xhr = new XMLHttpRequest();
-const url = "http://localhost:4010//~1pietrzyk/zad/hanoiTower/php/";
+var xhr = new XMLHttpRequest();
+const url = "http://localhost:4010//~1pietrzyk/projekt/php/";
 
 const svgWidth = 600;
 const towerWidth = 150;
@@ -14,10 +14,7 @@ let numberOfDisks = parseInt(document.getElementById('diskNumber').value);
 let animationSpeed = parseInt(document.getElementById('animationSpeed').value);
 
 
-
-
 let cancel = false;
-let disks = [];
 const pegs = [[], [], []];
 let isSolving = false;
 
@@ -33,7 +30,6 @@ function createTower() {
     pole.setAttribute('height', towerHeight);
     pole.setAttribute('fill', '#000');
     tower.appendChild(pole);
-    console.log(`${i} ${startingX + i * (towerWidth + towerSpacing) + towerWidth / 2 - poleWidth / 2}`);
   }
 }
 
@@ -99,7 +95,6 @@ async function moveDisk(fromPeg, toPeg) {
   const diskWidth = diskToMove.width.baseVal.value;
   const diskHeight = diskToMove.height.baseVal.value;
 
-  // const newX = toPeg * 200 + 75 - diskWidth / 2;
   const newY = 380 - (nextDisks.length) * diskHeight;
 
   const newX = toPeg * towerWidth + (toPeg) * towerSpacing + (towerWidth - diskWidth) / 2 + (svgWidth - towerWidth * 3 - towerSpacing * 2) / 2
@@ -110,7 +105,6 @@ async function moveDisk(fromPeg, toPeg) {
     var xIterator = (newX - currentX) / animationSpeed;
     var yIterator = (newY - currentY) / animationSpeed;
 
-    console.log(`Move disk from Peg ${fromPeg}(${currentY}) to Peg ${toPeg}(${currentY})`);
     if (Math.abs(currentY - newY) > 0.1 || Math.abs(currentX - newX) > 0.1) {
       diskToMove.y.baseVal.value = currentY + yIterator;
       diskToMove.x.baseVal.value = currentX + xIterator;

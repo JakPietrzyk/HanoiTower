@@ -4,7 +4,7 @@ session_start();
 $isSessionSet = isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true;
 ?>
 <!DOCTYPE html>
-
+<html lang="pl">
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <title>Wieża Hanoi</title>
@@ -57,7 +57,7 @@ $isSessionSet = isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true;
     <h2 onclick="toggleContent('gameRules')">Zasady Gry:</h2>
     <div id="gameRules" class="collapsed">
       <ul>
-        <li>Można przesuwać tylko jeden dysk naraz.</li>
+        <li>Można przesuwać tylko jeden dysk naraz.</li>
         <li>Każdy ruch polega na wzięciu górnego dysku z jednego ze słupków i umieszczeniu go na szczycie innego słupka
           lub na pustym słupku.</li>
         <li>Żaden dysk nie może być umieszczony na większym dysku.</li>
@@ -75,7 +75,7 @@ $isSessionSet = isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true;
         <li>Niech n będzie liczbą krążków, które chcemy przenieść ze słupka A na słupek C posługując się słupkiem B jako
           buforem. </li>
       </ul>
-      <h3>Rozwiązanie rekurencyjne:</h2>
+      <h3>Rozwiązanie rekurencyjne:</h3>
         <ol>
           <li>przenieś (rekurencyjnie) n-1 krążków ze słupka A na słupek B posługując się słupkiem C</li>
           <li>przenieś jeden krążek ze słupka A na słupek C,</li>
@@ -89,14 +89,32 @@ $isSessionSet = isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true;
         if (n > 0)
         {
           hanoi(n-1, A, C, B);
-          cout << A << " -> " << C << endl;
+          cout &lt;&lt; A &lt;&lt; " -> " &lt;&lt; C &lt;&lt; endl;
           hanoi(n-1, B, A, C);
         }
       }
     </pre>
     </div>
-  </div>
-
+    <h2 onclick="toggleContent('readme')">Użyte Funkcjonalności i Technologie na stronie:</h2>
+      <div id="readme" class="collapsed">
+        <h3>Funkcjonalności:</h3>
+          <ul>
+              <li>Podstawowe informacje o wieży hanoi, opis algorytmu, zasady gry oraz ciekawostki</li>
+              <li>Prezentacja algorytmu rekurencyjnego układania wieży</li>
+              <li>Wybór parametrów animacji (szybkość i ilość krążków)</li>
+              <li>Rejestracja oraz logowanie użytkownika</li>
+              <li>Osoba zalogowana może zapisać ustawione parametry animacji lub wczytać już zapisane z bazy danych</li>
+          </ul>
+        <h3>Technologie:</h3>
+          <ul>
+              <li>Serwer jest napisany w języku PHP</li>
+              <li>Do autoryzacji użytkownika wykorzystane zostały sesje</li>
+              <li>Komunikacja klient - serwer za pomocą REST</li>
+              <li>Wykorzystana baza danych - sqlite, do szyfrowania hasła użyto md5</li>
+              <li>Animacja stworzona w czystym JavaScript, korzystając z svg, AJAX, Promise, async, await, CSS, Event Listeners, getElementByID i innerHTML</li>
+          </ul>
+      </div>
+    </div>
 
   <div id="hanoiTower">
     <h2 id="animation">Przedstawienie algorytmu</h2>
